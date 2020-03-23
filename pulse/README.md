@@ -16,7 +16,7 @@ Make a get request to "http://127.0.0.1:5000/" to get a JSON with the current pu
 
 ```JSON
 {
-    'name': 'pulse',
-    'values': [60]
+    "name": "pulse",
+    "values": [60]
 }
 ```
