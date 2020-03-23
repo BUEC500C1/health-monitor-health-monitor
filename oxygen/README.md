@@ -16,7 +16,7 @@ Make a get request to "http://127.0.0.1:5000/" to get a JSON with the current ox
 
 ```JSON
 {
-    'name': 'oxygen',
-    'values': [98]
+    "name": "oxygen",
+    "values": [98]
 }
 ```
