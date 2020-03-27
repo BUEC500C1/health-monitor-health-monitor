@@ -9,12 +9,16 @@ api = Api(app)
 class alert(Resource):
     def get(self):
         alert = f.alert_module()
+
         oxygen = alert.get_oxygen()
-        bp = alert.get_bp()
+        sysDia = alert.get_bp()
         pulse = alert.get_pulse()
+        
+        bp = str(sysDia[0]) + "/" + str(sysDia[1])
+
         return {"oxygen": oxygen, "blood pressure": bp, "pulse": pulse}
 
 api.add_resource(alert, '/')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
