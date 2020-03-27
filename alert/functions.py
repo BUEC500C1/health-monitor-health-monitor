@@ -37,3 +37,7 @@ class alert_module():
             return 1
         else:
             return -1
+
+    def database(self, oxygen, systolic, diastolic, pulse):
+        print("data sent to the database")
+        return 1

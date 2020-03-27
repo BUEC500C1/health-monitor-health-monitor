@@ -14,6 +14,10 @@ class alert(Resource):
         sysDia = alert.get_bp()
         pulse = alert.get_pulse()
         
+        err = alert.database(oxygen, sysDia[0], sysDia[1], pulse)
+        if err == -1:
+            print("Error updating the database")
+        
         bp = str(sysDia[0]) + "/" + str(sysDia[1])
 
         return {"oxygen": oxygen, "blood pressure": bp, "pulse": pulse}
