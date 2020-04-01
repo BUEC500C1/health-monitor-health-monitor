@@ -2,17 +2,15 @@
 
 ## David Abadi
 
-### Start Server
+###  Use
+```python
+from pulse import get_pulse
 
-To start the server run:
-
-```bash
-python pulse.py
+if __name__ == '__main__':
+    print(get_pulse())
 ```
 
-### Get Data
-
-Make a get request to "http://127.0.0.1:5000/" to get a JSON with the current pulse. The JSON looks like:
+### Returned Data
 
 ```JSON
 {
