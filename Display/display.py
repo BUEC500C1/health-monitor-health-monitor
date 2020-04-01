@@ -1,16 +1,25 @@
 import sys
-from PyQt4 import QtGui
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtGui import QIcon
 
-def window():
-   app = QtGui.QApplication(sys.argv)
-   w = QtGui.QWidget()
-   b = QtGui.QLabel(w)
-   b.setText("Hello World!")
-   w.setGeometry(100,100,200,50)
-   b.move(50,20)
-   w.setWindowTitle('Health Monitor')
-   w.show()
-   sys.exit(app.exec_())
-	
+class App(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        self.title = 'Health Monitor'
+        self.left = 10
+        self.top = 10
+        self.width = 640
+        self.height = 480
+        self.initUI()
+        
+    def initUI(self):
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        self.show()
+    
 if __name__ == '__main__':
-   window()
+    app = QApplication(sys.argv)
+    ex = App()
+    sys.exit(app.exec_())
+   
