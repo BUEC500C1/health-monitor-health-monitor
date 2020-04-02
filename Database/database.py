@@ -81,6 +81,17 @@ def getPulsedata():
         print("get Pulse data success")
     except Exception as e:
         print("get Pulse data failed: "+e)
+        
+def get_whole_data(filename):
+    try:
+         with open(os.path.join('', filename)) as f:
+             s=f.read()
+             f.close()
+         return str(s)
+
+    except Exception as e:
+        print('----------------')
+        return e
 
 if __name__ == '__main__':
     createO2table()
@@ -88,4 +99,4 @@ if __name__ == '__main__':
     createPulsetable()
     
     #parseJsonfile()
-    print(getPulsedata())
+    print(getO2data())
