@@ -1,28 +1,26 @@
-from flask import Flask
-from flask_restful import Resource, Api
+import functions as f
 
-import alert.functions as f
+def getAlert():
+    alert = f.alert_module()
 
-app = Flask(__name__)
-api = Api(app)
+    oxygen = alert.get_oxygen()
+    sysDia = alert.get_bp()
+    pulse = alert.get_pulse()
+    
+    err = alert.database(oxygen, sysDia[0], sysDia[1], pulse)
+    # if err == -1:
+    #     print("Error updating the database")
 
-class alert(Resource):
-    def get(self):
-        alert = f.alert_module()
 
-        oxygen = alert.get_oxygen()
-        sysDia = alert.get_bp()
-        pulse = alert.get_pulse()
-        
-        err = alert.database(oxygen, sysDia[0], sysDia[1], pulse)
-        if err == -1:
-            print("Error updating the database")
-        
-        bp = str(sysDia[0]) + "/" + str(sysDia[1])
+    alert_oxygen = alert.get_oxygen_alert(oxygen)
 
-        return {"oxygen": oxygen, "blood pressure": bp, "pulse": pulse}
+    alert_bp = alert.get_blood_pressure_alert(sysDia)
 
-api.add_resource(alert, '/')
+    alert_pulse = alert.get_pulse_alert(pulse)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+    return {"oxygen": oxygen, "bp": sysDia, "pulse": pulse, "alert_oxygen": alert_oxygen, "alert_bp": alert_bp, "alert_pulse": alert_pulse}
+
+
+if __name__ == "__main__":
+    print(getAlert().items())
