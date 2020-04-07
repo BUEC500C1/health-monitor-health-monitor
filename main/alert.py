@@ -7,10 +7,7 @@ def getAlert():
     sysDia = alert.get_bp()
     pulse = alert.get_pulse()
     
-    err = alert.database(oxygen, sysDia[0], sysDia[1], pulse)
-    # if err == -1:
-    #     print("Error updating the database")
-
+    err = alert.database({"oxygen": oxygen, "bp": sysDia, "pulse": pulse})
 
     alert_oxygen = alert.get_oxygen_alert(oxygen)
 

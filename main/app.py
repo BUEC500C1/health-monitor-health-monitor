@@ -1,43 +1,49 @@
 from flask import Flask, render_template
-from Display.database import createBPtable
-from Display.database import createO2table
-from Display.database import createPulsetable
-from Display.database import getBPdata
-from Display.database import getO2data
-from Display.database import getPulsedata
-
-
+from Database.database import getO2data, getBPdata, getPulsedata
 from alert import getAlert
-from timer import timer
 
 app = Flask(__name__)
 
+oxygen_array = []
+bp_array = []
+pulse_array = []
+
 @app.route("/")
 def main():
-    
-    # # Creates database tables
-    # createO2table()
-    # createBPtable()
-    # createPulsetable()
-
-    # Gets most recent values from alert
     alert = getAlert()
     oxygen = alert['oxygen']
     blood_pressure = alert['bp']
     pulse = alert['pulse']
 
-    if alert['alert_oxygen'] == 1:
-        return render_template("oxy_alert.html", oxygen=oxygen, bp_sys=blood_pressure[0],bp_dia=blood_pressure[1], pulse=pulse)
-    if alert['alert_bp'] == 1:
-        return render_template("bp_alert.html", oxygen=oxygen,bp_sys=blood_pressure[0],bp_dia=blood_pressure[1], pulse=pulse)
+    if len(oxygen_array) > 0:
+        oxygen_array.append(oxygen)
+        bp_array.append(blood_pressure)
+        pulse_array.append(pulse)
+    else:  
+        oxygen_str = getO2data()
+        bp_str = getBPdata()
+        pulse_str = getPulsedata()
+        num = 0
+        if(len(oxygen_str) > 10):
+            num = len(oxygen_str) - 10
+        for i in range(num, len(oxygen_str)):
+            oxygen_array.append(oxygen_str[i])
+            bp_array.append(bp_str[i].split())
+            pulse_array.append(pulse_str[i])
 
-    if alert['alert_pulse'] == 1:
-        return render_template("pulse_alert.html", oxygen=oxygen,bp_sys=blood_pressure[0],bp_dia=blood_pressure[1], pulse=pulse)
+    while(len(oxygen_array) > 10):
+        oxygen_array.pop(0)
+        bp_array.pop(0)
+        pulse_array.pop(0)
 
-    return render_template("display.html", oxygen=oxygen, bp_sys=blood_pressure[0],bp_dia=blood_pressure[1], pulse=pulse)  
-
-
-
+    return render_template("display.html", 
+        oxygen=oxygen_array, 
+        bp=bp_array,
+        pulse=pulse_array, 
+        oxygen_alert=alert['alert_oxygen'],
+        bp_alert=alert['alert_bp'], 
+        pulse_alert=alert['alert_pulse'], 
+        len=(len(oxygen_array)))  
 
 if __name__ == "__main__":
     app.run(debug=True)

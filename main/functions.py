@@ -3,6 +3,7 @@ import random
 from blood_pressure_monitor import getBP
 from oxygen import get_oxygen
 from pulse import get_pulse
+from Database.database import storeO2data, storeBPdata, storePulsedata
 
 class alert_module():
 
@@ -60,6 +61,8 @@ class alert_module():
         else:
             return 0
 
-    def database(self, oxygen, systolic, diastolic, pulse):
-        print("data sent to the database")
+    def database(self, object):
+        storeO2data(object["oxygen"])
+        storeBPdata(object["bp"])
+        storePulsedata(object["pulse"])
         return 1

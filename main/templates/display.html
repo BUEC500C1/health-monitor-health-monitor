@@ -1,13 +1,69 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Health Monitor Display</title>
-  </head>
-  <body>
-    <div>
-      <p>Oxygen: {{ oxygen }}</p>
-      <p>Blood Pressure {{ bp_sys }} / {{bp_dia}}</p>
-      <p>Pulse: {{ pulse }}</p>
-    </div>
-  </body>
+
+<head>
+  <title>Health Monitor Display</title>
+  <style>
+    h1.hidden {
+      display: none;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    table,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <table>
+      <tr>
+        <td colspan={{len}}></td>
+        <td>Latest</td>
+      </tr>
+      <tr>
+        <td>Oxygen</td>
+        {% for value in oxygen %}
+        <td> {{ value }} </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Blood Pressure</td>
+        {% for value in bp %}
+        <td> {{ value[0] }}/ {{value[1]}} </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Pulse</td>
+        {% for value in pulse %}
+        <td> {{ value }} </td>
+        {% endfor %}
+      </tr>
+    </table>
+    <h1 id="o2_alert" class="hidden">ALERT OXYGEN LEVEL IS TOO LOW</h1>
+    <h1 id="bp_alert" class="hidden">ALERT BLOOD PRESSURE IS TOO HIGH</h1>
+    <h1 id="pulse_alert" class="hidden">ALERT PULSE IS TOO HIGH</h1>
+  </div>
+</body>
+<script>
+  if ({{ oxygen_alert }} == 1) {
+    document.getElementById("o2_alert").style.display = "block";
+  }
+  if ({{ bp_alert }} == 1) {
+    document.getElementById("bp_alert").style.display = "block";
+  }
+  if ({{ pulse_alert }} == 1) {
+    document.getElementById("pulse_alert").style.display = "block";
+  }
+
+  setInterval(() => {
+    location.reload();
+  }, 5000);
+</script>
+
 </html>
