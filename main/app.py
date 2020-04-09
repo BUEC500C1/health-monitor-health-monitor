@@ -1,12 +1,16 @@
 from flask import Flask, render_template
 from Database.database import getO2data, getBPdata, getPulsedata
 from alert import getAlert
+from AI import AI_analysis
 
 app = Flask(__name__)
 
 oxygen_array = []
 bp_array = []
 pulse_array = []
+o2_predicted = []
+bp_predicted = []
+pulse_predicted = []
 
 @app.route("/")
 def main():
@@ -35,11 +39,20 @@ def main():
         oxygen_array.pop(0)
         bp_array.pop(0)
         pulse_array.pop(0)
-
+        
+    #add predicted value     
+    o2_predicted = AI_analysis(oxygen_array)
+    bp_predicted = AI_analysis(bp_array, "bp")
+    pulse_predicted = AI_analysis(pulse_array)
+    
+    
     return render_template("display.html", 
         oxygen=oxygen_array, 
         bp=bp_array,
         pulse=pulse_array, 
+        o2predicted = o2_predicted,
+        bppredicted = bp_predicted,
+        pulsepredicted = pulse_predicted,
         oxygen_alert=alert['alert_oxygen'],
         bp_alert=alert['alert_bp'], 
         pulse_alert=alert['alert_pulse'], 

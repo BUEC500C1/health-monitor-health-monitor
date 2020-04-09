@@ -44,6 +44,31 @@
         <td> {{ value }} </td>
         {% endfor %}
       </tr>
+    </table> 
+    </br>   
+    <table>
+      <tr>
+        <td colspan={{1}}></td>
+        <td>AI Predicted</td>
+      </tr>
+      <tr>
+        <td>Oxygen</td>
+        {% for value in o2predicted %}
+        <td> {{ value }} </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Blood Pressure</td>
+        {% for value in bppredicted %}
+        <td> {{ value[0] }}/ {{value[1]}} </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Pulse</td>
+        {% for value in pulsepredicted %}
+        <td> {{ value }} </td>
+        {% endfor %}
+      </tr>
     </table>
     <h1 id="o2_alert" class="hidden">ALERT OXYGEN LEVEL IS TOO LOW</h1>
     <h1 id="bp_alert" class="hidden">ALERT BLOOD PRESSURE IS TOO HIGH</h1>
