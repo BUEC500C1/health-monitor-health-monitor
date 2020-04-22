@@ -41,7 +41,7 @@ The display (run in the app.py file) periodially requests alerts from the alert 
 
 ## How to Run: 
 
-Simply run python3 app.py in the main folder 
+Simply run python3 app.py in the main folder and navigate to http://localhost:5000.
 
 
 
